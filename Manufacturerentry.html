@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <section class="contact-clean">
+        <form method="post">
+            <h2 class="text-center">Honey Manufacturer</h2>
+            <div class="mb-3"><input class="form-control" type="text" name="Manufacturer_name" placeholder="Manufacturer_name"><input class="form-control" type="password" name="Manufacture_adress" placeholder="Manufacture_adress"></div>
+            <div class="mb-3"><input class="form-control is-invalid" type="text" name="Honey_name" placeholder="Honey__name"><input class="form-control is-invalid" name="Honey_manufactureddate" placeholder="Honey_manufactureddate"><input class="form-control is-invalid" name="Honey_expirydate" placeholder="Honey_expirydate"><input class="form-control is-invalid" type="number" name="units_manufactured" placeholder="units_manufactured"><input class="form-control is-invalid" type="number" placeholder="phonenum" name="phonenum"><small class="form-text text-danger">Please enter a correct email address.</small></div>
+            <div class="mb-3"><textarea class="form-control" name="message" placeholder="Message" rows="14"></textarea></div>
+            <div class="mb-3"><button class="btn btn-primary" type="submit">send </button></div>
+
+<script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+
+    <script>	
+	
+	var account;
+	window.addEventListener('load', async () => {
+		console.log("In Event Listener");
+	
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+						
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+				
+			}
+			console.log(account);
+		
+		abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "manufacture_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_honey_manufactureddate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_honey_expirydate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_units_manufactured",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_phone_no",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_manufacture_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_manufacture_address",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_honey_name",
+				"type": "string"
+			}
+		],
+		"name": "store_manufacture_details",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "manufacture_id",
+				"type": "uint256"
+			}
+		],
+		"name": "retreive_manufacture_details",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+contractaddress = '0x8E83e1DeBDA19B85C6170578a111fb4aC4E23d04';
+
+var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '4000000000', gas: '8000000'});
+							
+var result = myContract.methods.store(44,"Ramaguru","cys",80,90,70).send(function (err, result) {
+				
+		console.log("Result: ", result);
+			if (result) { console.log(result); }					
+		});			
+
+var result = myContract.methods.retrieve().call(function (err, result) {
+				
+		console.log("Result: ", result);
+			if (result) { console.log(result[0]); }					
+		});			
+
+		});
+		
+		
+    </script>	
+
+
+        </form>
+    </section>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

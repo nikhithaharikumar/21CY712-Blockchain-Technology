@@ -1,0 +1,74 @@
+//SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.4.22 <0.7.0;
+
+ 
+contract Honey  {
+    
+     
+      mapping(uint256 => manufacture)  manufacturelist;
+      
+    
+     struct  manufacture{
+         string  manufacture_name;
+         string  manufacture_address;
+         string  honey_name;
+         uint256 honey_manufactureddate;
+         uint256 honey_expirydate;
+         uint256 units_manufactured;
+         uint256 phone_no;
+
+      
+          
+     }
+     manufacture m;
+     
+     address owner;
+     
+      
+    
+      constructor() public {
+          owner = msg.sender;
+      }
+      
+      
+      // modifier to give access only to honey (bee keeper)
+      modifier isOwner() {
+
+         require(msg.sender == owner, "Access is not allowed");
+
+         _;
+
+     }
+      
+     
+     
+    
+  
+     function store_manufacture_details(uint256 manufacture_id,uint256 honey_id,uint256 _honey_manufactureddate,uint256 _honey_expirydate,uint256 _units_manifactured,uint256 _phone_no,string memory _manufacture_name,string memory _manufacture_address,string memory _honey_name)public isOwner {
+        
+         m.manufacture_name = _manufacture_name;
+         m.manufacture_address = _manufacture_address;
+         m.honey_manufactureddate = _honey_manufactureddate;
+         m.honey_expirydate = _honey_expirydate;
+         m.units_manufactured = _units_manifactured;
+         m.phone_no = _phone_no;
+         m.honey_name = _honey_name;
+         
+        manufacturelist[manufacture_id] = m;
+        
+        
+         }
+         
+        
+
+         function retreive_manufacture_details(uint256 manufacture_id) public view returns (string memory,string memory,string memory){
+             
+     manufacture memory m = manufacturelist[manufacture_id];
+     
+     return (m.manufacture_name,m.manufacture_address,m.honey_name);
+     
+          }
+          
+          
+          
+}
