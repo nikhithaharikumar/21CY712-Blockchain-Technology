@@ -1,0 +1,232 @@
+<html>
+<head>
+<title>Distributor Registration</title>
+</head>
+    <body>
+	<p><a href="Bregister.html"><button type="submit" class="hidden" style='margin-right:16px'>Beekeeper Registration</button></a><a href="bregister_details.html"><button type="submit" class="hidden" style='margin-right:16px'>View Beekeeper Registration</button></a><a href="dregister.html"><button type="submit" class="hidden" style='margin-right:16px'>Distibutor Registration</button></a><a href="dregister_details.html"><button type="submit" class="hidden" style='margin-right:16px'>View Distributor Record</button></a>
+      
+        <h1>Distributor Registration </h1>
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+    <script>	
+	
+	var account;
+	window.addEventListener('load', async () => {
+		      console.log("in eventlistener");
+
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+				
+			}
+		                   console.log(account);
+			
+			});
+    	
+        var abi = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "distributor_id",
+				"type": "uint256"
+			}
+		],
+		"name": "retreive_manufacture_details",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "distributor_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_distributor_phonenum",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_units_no",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_honey_manufactureddate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_honey_expirydate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_distributor_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_distributor_address",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_manufacturer_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_honey_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_honey_type",
+				"type": "string"
+			}
+		],
+		"name": "store_manufacture_details",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+        var contractaddress = '0x10Ea8B68E7753F2e7B35b7464c440A9b3ABe86B8';
+        
+        function add_details() {
+            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+			var ds1 = document.getElementById("daddr").value;
+			var ds2 = document.getElementById("dname").value;
+                        var tname = document.getElementById("hname").value;
+                        var mname = document.getElementById("mname1").value;
+                        var id = document.getElementById("did").value;
+                        var tdate = document.getElementById("mdate").value;
+                        var tdate1 = document.getElementById("edate").value;
+                        var tunits = document.getElementById("units").value;
+                        var tphn = document.getElementById("phonenum").value;
+                        var ttype = document.getElementById("htype").value;
+             var result = myContract.methods.store_manufacture_details(id,tphn,tunits,tdate,tdate1,ds2,ds1,mname,tname,ttype).send(function (err, result) {
+               
+                if (err) { console.log(err); }
+                if (result) { document.getElementById("result").innerHTML = result; }
+               
+                });
+        }
+		function show_details() {
+                        var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+                        var idd = document.getElementById("tid").value;
+                        var result = myContract.methods.retreive_manufacture_details(idd).call(function (err, result) {
+               
+                if (err) { console.log(err); }
+                if (result) { 
+                    document.getElementById("get_dname").innerHTML = result[0];
+		    document.getElementById("get_daddr").innerHTML = result[1];
+		    document.getElementById("get_hname").innerHTML = result[2];
+                document.getElementById("get_mname1").innerHTML = result[3];
+                }
+               
+                });
+        }
+        function del_details() {
+            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+            var bid = document.getElementById("bid1").value;
+             var result = myContract.methods.burnMyToken(bid).send(function (err, result) {
+               
+                if (err) { console.log(err); }
+                });
+        }
+        </script>
+
+       
+        <h2>Distributor Registration</h2>
+    <form>
+		<table style="width:25%"> 
+            <tr>
+			<td>Enter Distributor Id:</td>
+			<td><input type="text" id="did" name="did"></td>
+		  </tr>
+            <tr>
+			<td> Distributor Name:</td>
+			<td><input type="text" id="dname" name="dname"></td>
+		  </tr>
+            <tr>
+			<td> Distributor Address:</td>
+			<td><input type="text" id="daddr" name="daddr"></td>
+		  </tr>
+	    <tr>
+			<td>Enter Phn num:</td>
+			<td><input type="text" id="phonenum" name="phonenum"></td>
+		  </tr>
+          <tr>
+			<td> Manufacturer Name:</td>
+			<td><input type="text" id="mname1" name="mname1"></td>
+		  </tr>
+	    <tr>
+			<td>Enter Honey name:</td>
+			<td><input type="text" id="hname" name="hname"></td>
+		  </tr>
+          <tr>
+			<td>Enter Honey type:</td>
+			<td><input type="text" id="htype" name="htype"></td>
+		  </tr>
+	    <tr>
+			<td>Enter Manufacture date:</td>
+			<td><input type="text" id="mdate" name="mdate"></td>
+		  </tr>
+	    <tr>
+			<td>Enter Expiry date:</td>
+			<td><input type="text" id="edate" name="edate"></td>
+		  </tr>
+	     <tr>
+			<td>Enter Units:</td>
+			<td><input type="text" id="units" name="units"></td>
+		  </tr>
+           <tr>
+		  <td><input type="button" onclick="add_details()" value="Register"></td>
+		  </tr>
+		</table>
+		</form>
+        <h3>To get details of a distributor  <a href="dregister_details.html">Click Here</a></h3>
+    </body>
+</html>

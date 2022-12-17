@@ -1,0 +1,204 @@
+<html>
+<head>
+<title>Register Beekeeper</title>
+</head>
+    <body>
+	<p><a href="Bregister.html"><button type="submit" class="hidden" style='margin-right:16px'>Beekeeper Registration</button></a><a href="bregister_details.html"><button type="submit" class="hidden" style='margin-right:16px'>View Beekeeper Registration</button></a><a href="dregister.html"><button type="submit" class="hidden" style='margin-right:16px'>Distibutor Registration</button></a><a href="dregister_details.html"><button type="submit" class="hidden" style='margin-right:16px'>View Distributor Record</button></a>
+      
+        <h1>Beekeeper Registration </h1>
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+    <script>	
+	
+	var account;
+	window.addEventListener('load', async () => {
+                          console.log("in eventlistener");
+	
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+				
+			}
+		                         console.log(account);
+			
+			});
+    	
+        var abi = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "manufacture_id",
+				"type": "uint256"
+			}
+		],
+		"name": "retreive_manufacture_details",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "manufacture_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_honey_manufactureddate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_honey_expirydate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_units_manufactured",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_phone_no",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_manufacture_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_manufacture_address",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_honey_name",
+				"type": "string"
+			}
+		],
+		"name": "store_manufacture_details",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+        var contractaddress = '0x64E8Eb09B127840F9644618500ba8D84d15ab164';
+        
+        function add_details() {
+            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+			var ds1 = document.getElementById("addr").value;
+			var ds2 = document.getElementById("bname").value;
+                        var tname = document.getElementById("hname").value;
+                        var id = document.getElementById("id1").value;
+                        var tdate = document.getElementById("mdate").value;
+                        var tdate1 = document.getElementById("edate").value;
+                        var tunits = document.getElementById("units").value;
+                        var tphn = document.getElementById("phonenum").value;
+             var result = myContract.methods.store_manufacture_details(id,tdate,tdate1,tunits,tphn,ds2,ds1,tname).send(function (err, result) {
+               
+                if (err) { console.log(err); }
+                if (result) { document.getElementById("result").innerHTML = result; }
+               
+                });
+        }
+		function show_details() {
+                         var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+                         var idd = document.getElementById("tid").value;
+                         var result = myContract.methods.retreive_manufacture_details(idd).call(function (err, result) {
+                if (err) { console.log(err); }
+                if (result) { 
+                    document.getElementById("get_bname").innerHTML = result[0];
+		    document.getElementById("get_addr").innerHTML = result[1];
+		    document.getElementById("get_hname").innerHTML = result[2];
+                }
+                });
+        }
+        function del_details() {
+            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+            var bid = document.getElementById("bid1").value;
+             var result = myContract.methods.burnMyToken(bid).send(function (err, result) {
+               
+                if (err) { console.log(err); }
+                });
+        }
+        </script>
+
+       
+        <h2>Register Beekeeper</h2>
+        <form>
+		<table style="width:25%"> 
+            <tr>
+			<td>Enter Beekeeper Id:</td>
+			<td><input type="text" id="id1" name="id1"></td>
+		  </tr>
+            <tr>
+			<td> Beekeeper Name:</td>
+			<td><input type="text" id="bname" name="bname"></td>
+		  </tr>
+            <tr>
+			<td>Beekeeper Address:</td>
+			<td><input type="text" id="addr" name="addr"></td>
+		  </tr>
+	    <tr>
+			<td>Enter Phn num:</td>
+			<td><input type="text" id="phonenum" name="phonenum"></td>
+		  </tr>
+	    <tr>
+			<td>Enter Honey name:</td>
+			<td><input type="text" id="hname" name="hname"></td>
+		  </tr>
+	    <tr>
+			<td>Enter Manufacture date:</td>
+			<td><input type="text" id="mdate" name="mdate"></td>
+		  </tr>
+	    <tr>
+			<td>Enter Expiry date:</td>
+			<td><input type="text" id="edate" name="edate"></td>
+		  </tr>
+	    <tr>
+			<td>Enter Units:</td>
+			<td><input type="text" id="units" name="units"></td>
+		  </tr>
+            <tr>
+		  <td><input type="button" onclick="add_details()" value="Register"></td>
+		  </tr>
+		</table>	
+	</form>
+        <h3>To get details of a beekeper  <a href="bregister_details.html">Click Here</a></h3>
+    </body>
+</html>
